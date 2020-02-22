@@ -7,17 +7,17 @@ class PostApi extends RESTDataSource {
    }
 
    async getAllPost() {
-      const posts = await this.get("posts")
+      const posts = await this.get("posts");
       const postComments = await Promise.all(
-         posts.map(async post => {
-            await this.getCommentsById(post.id)
-         }));
+         posts.map(async post => await this.getCommentsById(post.id))
+      )
       return this.formatPost(posts, postComments)
    }
 
    async getCommentsById(postId) {
       return await this.get(`posts/${postId}/comments`)
    }
+
    formatPost(posts, postComments) {
       return posts.map((post, index) => ({
          id: post.id,
@@ -26,6 +26,7 @@ class PostApi extends RESTDataSource {
          comments: this.formatComment(postComments[index])
       }))
    }
+   
    formatComment(comments) {
       return comments.map(comment => ({
          id: comment.id,

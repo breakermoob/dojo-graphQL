@@ -8,7 +8,7 @@ const typeDefs = gql`
       id: ID!
       title: String
       body: String
-      comments: [Comment]!
+      comments: [Comment]
 
 
    }
